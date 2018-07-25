@@ -68,24 +68,25 @@ app.on('ready', () => {
 /**
  * database
  */
-const databaseFilePath = path.join(app.getPath('userData'), '/data.db');
+const databaseFilePath = path.join(app.getPath('userData'), 'databases/starter.db');
 ipcMain.on('get-db-file', async (event:Event) => {
-  if (!fs.existsSync(app.getPath('userData'))) {
-    await fs.mkdir(app.getPath('userData'));
+
+  try {
+    let dbFile:Uint8Array|null = await fs.readFile(databaseFilePath);
+    if (!dbFile) {
+        const db = new SQL.Database();
+        dbFile = db.export();
+        const buffer = new Buffer(dbFile);
+        await fs.writeFile(databaseFilePath, buffer);
+    }
+    
+    event.sender.send('db-file-ready', dbFile);
+  } catch (e) {
+    console.error(e.message);
   }
-  
-  let dbFile:Uint8Array = await fs.readFile(databaseFilePath);
-  if (!dbFile) {
-      const db = new SQL.Database();
-      dbFile = db.export();
-      const buffer = new Buffer(dbFile);
-      await fs.writeFile(databaseFilePath, buffer);
-  }
-  
-  event.sender.send('db-file-ready', dbFile);
 });
 
-ipcMain.on('save-db-file', async (event:Event, dbFile:Uint8Array) => {
-  const buffer = new Buffer(dbFile);
+ipcMain.on('write-db-data', (event:Event, dbData:Uint8Array) => {
+  const buffer = new Buffer(dbData);
   fs.writeFile(databaseFilePath, buffer); 
-});
+})

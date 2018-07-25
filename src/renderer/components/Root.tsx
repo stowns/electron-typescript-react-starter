@@ -4,9 +4,8 @@ import { User } from './User';
 const ipcRenderer = require('electron').ipcRenderer;
 import { SyncLoader } from 'react-spinners';
 
-// database imports
 require('reflect-metadata');
-const createConnection = require('typeorm').createConnection;
+import { Connection, getConnectionManager, ConnectionManager, createConnection } from 'typeorm';
 import { UserEntity } from '../entities/UserEntity';
 
 export class Root extends React.Component<any, any> {
@@ -19,19 +18,25 @@ export class Root extends React.Component<any, any> {
         // ask for the db connection
         ipcRenderer.send('get-db-file');
         // listen for the db connection
-        ipcRenderer.on('db-file-ready', async (dbFile: Uint8Array) => {
-            const connection = await createConnection({
-                type: 'sqljs',
-                database: dbFile,
-                entities: [
-                    UserEntity
-                ],
-                synchronize: true,
-                autoSave: true,
-                autoSaveCallback: async (data: Uint8Array) => {
-                    ipcRenderer.send('save-db-file', data);
-                }
-            });
+        ipcRenderer.on('db-file-ready', async (event:any, dbFile:Uint8Array) => {
+            
+            // check for existing connection
+            let connection:Connection;
+            const manager:ConnectionManager = getConnectionManager();
+            if (manager.has('default')) {
+                connection = manager.get();
+            } else {
+                connection = await createConnection({
+                    type: 'sqljs',
+                    database: dbFile,
+                    entities: [UserEntity],
+                    autoSave: true,
+                    autoSaveCallback: async (data: Uint8Array) => {
+                        ipcRenderer.send('write-db-data', data);
+                    }
+                });
+            }
+            
             this.setState({db:connection});
         });
     }

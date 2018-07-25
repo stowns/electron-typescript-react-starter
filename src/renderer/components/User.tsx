@@ -1,9 +1,15 @@
 import * as React from 'react';
 import './User.scss';
 import { FormEvent } from 'react';
-import { UserEntity } from '../entities/UserEntity';
 
-export class User extends React.Component<any, any> {
+import { UserEntity } from '../entities/UserEntity';
+import { Connection } from '../../../node_modules/typeorm';
+
+
+interface UserProps {
+    db: Connection
+}
+export class User extends React.Component<UserProps, any> {
     constructor(props: any){
         super(props);
         this.state = {
