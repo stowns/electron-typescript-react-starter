@@ -2,6 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Root } from './components/Root';
 
+let appEl = document.getElementById('app');
+if (appEl) {
+  appEl.classList.add('d-flex');
+  appEl.classList.add('flex-row');
+  appEl.style.height = '100%';
+}
+
 const render = (App: React.ComponentType) => {
   ReactDOM.render(
       <App />,

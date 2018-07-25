@@ -2,6 +2,7 @@ import * as React from 'react';
 import './Root.scss';
 import { User } from './User';
 const ipcRenderer = require('electron').ipcRenderer;
+import { SyncLoader } from 'react-spinners';
 
 // database imports
 require('reflect-metadata');
@@ -36,22 +37,32 @@ export class Root extends React.Component<any, any> {
     }
 
     render(){
+        let Content;
         if (!this.state.db) {
-           return (<h1>'Initializing Db'</h1>)
+           Content = (
+            <SyncLoader
+                loading={true} />
+           );
+        } else {
+            Content = (
+                <div>
+                    <div className="flex-row">
+                        <p className='col-sm-12 text-center'>
+                            <b>Electron Typescript React Starter</b>  
+                        </p>
+                    </div>
+                    <div className="flex-row">
+                        <User
+                            db={this.state.db}
+                        />
+                    </div>
+                </div>
+            );
         }
         
         return(
-            <div className="h-100 w-100 mt-3">
-                <div className="row">
-                    <p className='col-sm-12 text-center'>
-                        <b>Electron Typescript React Starter</b>  
-                    </p>
-                </div>
-                <div className="row">
-                    <User
-                        db={this.state.db}
-                    />
-                </div>
+            <div className="d-flex justify-content-center align-items-center flex-grow-1">
+                {Content}
             </div>
         )
     }
