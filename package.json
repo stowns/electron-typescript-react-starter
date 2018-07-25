@@ -1,0 +1,44 @@
+{
+  "name": "electron-webpack-quick-start",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "bootstrap": "^4.1.3",
+    "fs-extra": "^7.0.0",
+    "jquery": "1.9.1",
+    "popper.js": "^1.14.3",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "reflect-metadata": "^0.1.12",
+    "source-map-support": "^0.5.5",
+    "sql.js": "^0.5.0",
+    "typeorm": "^0.2.7"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.0.0-beta.54",
+    "@types/bluebird": "^3.5.23",
+    "@types/node": "^10.5.3",
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "@types/sql.js": "^0.0.29",
+    "@types/webpack-env": "^1.13.6",
+    "electron": "2.0.0",
+    "electron-builder": "^20.11.1",
+    "electron-webpack": "^2.0.1",
+    "electron-webpack-ts": "^2.0.2",
+    "node-sass": "^4.9.2",
+    "sass-loader": "^7.0.3",
+    "typescript": "^2.9.2",
+    "webpack": "^4.8.1"
+  },
+  "resolutions": {
+    "webpack-sources": "1.0.1"
+  }
+}
