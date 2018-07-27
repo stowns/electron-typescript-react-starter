@@ -1,5 +1,5 @@
 # electron-typescript-react-starter
-> a custom configuration of https://github.com/electron-userland/electron-webpack-quick-start with [typeorm](https://github.com/typeorm/typeorm) via [sql.js](https://github.com/kripken/sql.js/) for portability
+> a custom configuration of https://github.com/electron-userland/electron-webpack-quick-start with [typeorm](https://github.com/typeorm/typeorm) via [sql.js](https://github.com/kripken/sql.js/) for portability and [react-redux](https://github.com/reduxjs/react-redux) for state-management.
 
 Make sure to check out [`electron-webpack`'s documentation](https://webpack.electron.build/) for available plugins and add-ons.
 
