@@ -8,5 +8,10 @@ export class UserEntity {
  
     @Column()
     name!: string;
-
+    
+    constructor(userForm:any = null) {
+        if (userForm) {
+            this.name = userForm.name;
+        }
+    }
 }

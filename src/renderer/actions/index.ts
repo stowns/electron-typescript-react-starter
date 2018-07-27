@@ -9,6 +9,9 @@ import { DB_FILE_READY, GET_DB_FILE, WRITE_DB_DATA } from '../../shared/constant
 export class ActionTypes {
   static readonly DB_READY = 'DB_READY'; 
   static readonly FETCH_DB = 'FETCH_DB';
+  static readonly SAVE_USER = 'SAVE_USER';
+  static readonly FETCH_USER = 'FETCH_USER';
+  static readonly SET_USER = 'SET_USER';
 }
     
 export function fetchDb() {
@@ -28,6 +31,7 @@ export function fetchDb() {
                 type: 'sqljs',
                 database: dbFile,
                 entities: [UserEntity],
+                synchronize: true,
                 autoSave: true,
                 autoSaveCallback: async (data: Uint8Array) => {
                     ipcRenderer.send(WRITE_DB_DATA, data);
@@ -35,12 +39,38 @@ export function fetchDb() {
             });
         }
         
-        dispatch(dbReadyAction(db));
+        dispatch(dbReady(db));
     });
   }
 }
 
-export const dbReadyAction = (db:Connection) => ({
+export const dbReady = (db:Connection) => ({
   type: ActionTypes.DB_READY,
   payload: db
+});
+
+export function fetchUser() {
+  return async (dispatch:Dispatch<AnyAction>, getState:()=>any) => {
+    const { db } = getState();
+    const userRepo = db.getRepository(UserEntity);
+    const user = await userRepo.findOne(1);
+    dispatch(setUser(user));
+  }
+}
+
+export function saveUser(userForm:any) {
+  return async (dispatch:Dispatch<AnyAction>, getState:()=>any) => {  
+    const { db } = getState();
+    const userRepo = db.getRepository(UserEntity);
+    const user = new UserEntity(userForm);
+    await userRepo.save(user);
+    
+    const savedUser = await userRepo.findOne({name: user.name});
+    dispatch(setUser(savedUser));
+  }
+}
+
+export const setUser = (user: UserEntity) => ({
+  type: ActionTypes.SET_USER,
+  payload: user
 });

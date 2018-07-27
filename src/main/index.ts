@@ -4,9 +4,8 @@ import { app, BrowserWindow, Event, ipcMain } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
 import SQL from 'sql.js';
-import * as Promise from 'bluebird';
 import { DB_FILE_READY, GET_DB_FILE, WRITE_DB_DATA } from '../shared/constants/message-types';
-const fs = Promise.promisifyAll(require('fs-extra'));
+import * as fs from 'fs-extra';
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -73,12 +72,15 @@ const databaseFilePath = path.join(app.getPath('userData'), 'databases/starter.d
 ipcMain.on(GET_DB_FILE, async (event:Event) => {
 
   try {
-    let dbFile:Uint8Array|null = await fs.readFile(databaseFilePath);
-    if (!dbFile) {
-        const db = new SQL.Database();
-        dbFile = db.export();
-        const buffer = new Buffer(dbFile);
-        await fs.writeFile(databaseFilePath, buffer);
+    
+    let dbFile:Uint8Array|null;
+    if (fs.pathExistsSync(databaseFilePath)) {
+      dbFile = await fs.readFile(databaseFilePath);
+    } else {
+      const db = new SQL.Database();
+      dbFile = db.export();
+      const buffer = new Buffer(dbFile);
+      await fs.writeFile(databaseFilePath, buffer);
     }
     
     event.sender.send(DB_FILE_READY, dbFile);

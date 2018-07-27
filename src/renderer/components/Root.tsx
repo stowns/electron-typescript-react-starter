@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './Root.scss';
-import { User } from './User';
 import { SyncLoader } from 'react-spinners';
 import { Connection } from 'typeorm';
+import UserContainer from '../containers/UserContainer';
 
 interface RootProps {
     db:Connection,
@@ -15,7 +15,7 @@ export class Root extends React.Component<RootProps, any> {
         this.props.fetchDb();
     }
     
-    render(){
+    render(): any {
         let Content;
         if (!this.props.db) {
            Content = (
@@ -31,9 +31,7 @@ export class Root extends React.Component<RootProps, any> {
                         </p>
                     </div>
                     <div className="flex-row">
-                        <User
-                            db={this.props.db}
-                        />
+                        <UserContainer />
                     </div>
                 </div>
             );
