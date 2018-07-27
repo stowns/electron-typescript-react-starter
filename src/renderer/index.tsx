@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Root } from './components/Root';
+import RootContainer from './containers/RootContainer';
+import { Provider } from "react-redux";
+import store from "./store/index";
 
 let appEl = document.getElementById('app');
 if (appEl) {
@@ -9,14 +11,16 @@ if (appEl) {
   appEl.style.height = '100%';
 }
 
-const render = (App: React.ComponentType) => {
+const render = (App:any) => {
   ReactDOM.render(
-      <App />,
+    <Provider store={store}>
+      <App />
+    </Provider>,
     document.getElementById('app'),
   );
 };
 
-render(Root);
+render(RootContainer);
 
 if (module.hot) {
   module.hot.accept('./components/Root', () => {

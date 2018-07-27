@@ -5,6 +5,7 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import SQL from 'sql.js';
 import * as Promise from 'bluebird';
+import { DB_FILE_READY, GET_DB_FILE, WRITE_DB_DATA } from '../shared/constants/message-types';
 const fs = Promise.promisifyAll(require('fs-extra'));
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -69,7 +70,7 @@ app.on('ready', () => {
  * database
  */
 const databaseFilePath = path.join(app.getPath('userData'), 'databases/starter.db');
-ipcMain.on('get-db-file', async (event:Event) => {
+ipcMain.on(GET_DB_FILE, async (event:Event) => {
 
   try {
     let dbFile:Uint8Array|null = await fs.readFile(databaseFilePath);
@@ -80,13 +81,13 @@ ipcMain.on('get-db-file', async (event:Event) => {
         await fs.writeFile(databaseFilePath, buffer);
     }
     
-    event.sender.send('db-file-ready', dbFile);
+    event.sender.send(DB_FILE_READY, dbFile);
   } catch (e) {
     console.error(e.message);
   }
 });
 
-ipcMain.on('write-db-data', (event:Event, dbData:Uint8Array) => {
+ipcMain.on(WRITE_DB_DATA, (event:Event, dbData:Uint8Array) => {
   const buffer = new Buffer(dbData);
   fs.writeFile(databaseFilePath, buffer); 
 })
