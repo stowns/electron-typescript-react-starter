@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import RootContainer from './containers/RootContainer';
 import { Provider } from "react-redux";
 import store from "./store/index";
-import './photon-assets/css/photon.scss';
+import './assets/css/photon.scss';
+import './assets/css/bootstrap-grid.scss';
 
 let appEl = document.getElementById('app');
 if (appEl) {

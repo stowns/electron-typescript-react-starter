@@ -18,12 +18,17 @@ export class User extends React.Component<UserProps, any> {
     }
 
     render(){
-        let content;
+        let Content;
         const user = this.props.user;
         if (user) {
-            content = <h1>You're {user.name}!</h1>;
+            Content = (
+                <div className="text-center">
+                     <h1>You're {user.name}!</h1>
+                </div>
+               
+            )
         } else {
-            content = (
+            Content = (
                 <div className='col-sm-6 offset-sm-3'>
                     <Formik
                         initialValues={{
@@ -78,8 +83,8 @@ export class User extends React.Component<UserProps, any> {
         }
         
         return (
-            <div>
-                {content}
+            <div className="w-100">
+                {Content}
             </div>
         )
         
