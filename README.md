@@ -1,5 +1,5 @@
 # electron-typescript-react-starter
-> a custom configuration of [electron-webpack-quick-start](https://github.com/electron-userland/electron-webpack-quick-start) with [typeorm](https://github.com/typeorm/typeorm) via [sql.js](https://github.com/kripken/sql.js/) for portability, [react-redux](https://github.com/reduxjs/react-redux) for state-management, and [formik](https://github.com/jaredpalmer/formik) for form-building. enjoy
+> a custom configuration of [electron-webpack-quick-start](https://github.com/electron-userland/electron-webpack-quick-start) with [typeorm](https://github.com/typeorm/typeorm) via [sql.js](https://github.com/kripken/sql.js/) for portable persistent storage, [react-redux](https://github.com/reduxjs/react-redux) for state-management, [formik](https://github.com/jaredpalmer/formik) for form-building, [Bootstrap 4](https://getbootstrap.com/) for layout styling and [Photon](http://photonkit.com/) for native app styling.
 
 Make sure to check out [electron-webpack's documentation](https://webpack.electron.build/) for available plugins and add-ons.
 

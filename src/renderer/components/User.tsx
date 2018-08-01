@@ -21,11 +21,7 @@ export class User extends React.Component<UserProps, any> {
         let content;
         const user = this.props.user;
         if (user) {
-            content =  (
-                <div className='text-center'>   
-                    <span>You're {user.name}!</span>
-                </div>
-            )
+            content = <h1>You're {user.name}!</h1>;
         } else {
             content = (
                 <div className='col-sm-6 offset-sm-3'>
@@ -82,7 +78,7 @@ export class User extends React.Component<UserProps, any> {
         }
         
         return (
-            <div className="message col-sm-12 text-center">
+            <div>
                 {content}
             </div>
         )

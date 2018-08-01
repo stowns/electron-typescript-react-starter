@@ -19,28 +19,25 @@ export class Root extends React.Component<RootProps, any> {
         let Content;
         if (!this.props.db) {
            Content = (
-            <SyncLoader
-                loading={true} />
-           );
+                <SyncLoader
+                    loading={true} />
+            );
         } else {
             Content = (
-                <div>
-                    <div className="flex-row">
-                        <p className='col-sm-12 text-center'>
-                            <b>Electron Typescript React Starter</b>  
-                        </p>
-                    </div>
-                    <div className="flex-row">
-                        <UserContainer />
-                    </div>
-                </div>
+                <UserContainer />
             );
         }
         
         return(
-            <div className="d-flex justify-content-center align-items-center flex-grow-1">
-                {Content}
+            <div className="w-100 h-100">
+                <header className="toolbar toolbar-header draggable">
+                    <h1 className="title">Electron Typescript React Starter</h1>
+                </header>
+                <div className="window-content w-100 h-100 d-flex justify-content-center align-items-center">
+                    {Content}
+                </div>
             </div>
+            
         )
     }
 }
